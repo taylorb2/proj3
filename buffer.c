@@ -1,9 +1,14 @@
-#include "buffer.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <ctype.h>
+
+#include <linux/kernel.h>
+#include <sys/syscall.h>
+#include <string.h>
+
+#include "buffer.h"
 
 
 ring_buffer_421_t* buffer;
