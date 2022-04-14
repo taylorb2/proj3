@@ -51,7 +51,7 @@ long init_buffer_421(void){
 
   int exist = 0; //0 for doesnt exist, 1 for already exists
   //Initialize data strructure
-  buffer = malloc(sizeof(struct ring_buffer_421));
+  buffer = kmalloc((sizeof(struct ring_buffer_421)), GFP_KERNEL);
   buffer -> read = NULL;
   buffer -> write = NULL;
   buffer -> length = 0;
@@ -70,14 +70,14 @@ long init_buffer_421(void){
 
       //If this is first node save the address
       if(i == 0){      
-        pointer_current = malloc(sizeof(struct node_421));
+        pointer_current = kmalloc((sizeof(struct node_421)), GFP_KERNEL);
         first_node = pointer_current;
         //Insert dummy data
         pointer_current -> data = 0;
       }
       //If it is not first node but not last node add it to circular list
       else{
-        pointer_next = malloc(sizeof(struct node_421));
+        pointer_next = kmalloc((sizeof(struct node_421)), GFP_KERNEL);
         pointer_current -> next = pointer_next;
         pointer_current = pointer_current -> next;
         pointer_current -> data = 0;
