@@ -123,8 +123,8 @@ long print_buffer_421(void){
       //If we have not started itterating through linked list yet, itterate first pointer
       if(start_print == 0){        
         //Print Content
-        printf("\n Node Number: %d ", counter);
-        printf("\nData: %d", buffer -> read -> data);
+        printk("\n Node Number: %d ", counter);
+        printk("\nData: %d", buffer -> read -> data);
         
         buffer -> read = buffer -> read -> next;
         start_print = 1;
@@ -133,8 +133,8 @@ long print_buffer_421(void){
       //Stop when we have reached front of list
       else if(buffer -> read != temp_head){
         //Print Content
-        printf("\n Node Number: %d ", counter);
-        printf("\nData: %d", buffer -> read -> data);
+        printk("\n Node Number: %d ", counter);
+        printk("\nData: %d", buffer -> read -> data);
         
         buffer -> read = buffer -> read -> next;
         counter ++;
