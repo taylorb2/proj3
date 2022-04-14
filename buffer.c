@@ -189,11 +189,11 @@ long delete_buffer_421(){
     //Itterate through and delete the whole list
     for(int w = 0; w < ((buffer -> length) - 1); w++){
       next = current -> next;
-      free(current);
+      kfree(current);
       current = next;      
     }
     //delete the final node
-    free(current);
+    kfree(current);
   }
   //If it does not exist
   else{
