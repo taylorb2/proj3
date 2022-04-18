@@ -1,8 +1,8 @@
 # Add the names of your .c files from your assignment here.
-SRCS = buffer.c
+SRCS = buffer_user.c
 
 # This line is the name of the program you are building
-BIN = proj3_part1a
+BIN = proj3_part2a
 
 # Compiler flags to pass to the system's C compiler while building
 # the source files
