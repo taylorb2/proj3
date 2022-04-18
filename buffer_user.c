@@ -26,9 +26,9 @@ SYSCALL_DEFINE0(init_buffer_sem_421){
   }
   //If buffer does not exist, create it
   else{
-    struct bb_node_421 *pointer_current = NULL;
-    struct bb_node_421 *pointer_next = NULL;
-    struct bb_node_421 *first_node = NULL;
+    struct bb_node_sem_421 *pointer_current = NULL;
+    struct bb_node_sem_421 *pointer_next = NULL;
+    struct bb_node_sem_421 *first_node = NULL;
 
     //Creat circular buffer of length 20
     int i = 0;
@@ -36,12 +36,12 @@ SYSCALL_DEFINE0(init_buffer_sem_421){
 
       //If this is first node save the address
       if(i == 0){      
-        pointer_current = kmalloc((sizeof(struct bb_node_421)), GFP_KERNEL);
+        pointer_current = kmalloc((sizeof(struct bb_node_sem_421)), GFP_KERNEL);
         first_node = pointer_current;
       }
       //If it is not first node but not last node add it to circular list
       else{
-        pointer_next = kmalloc((sizeof(struct bb_node_421)), GFP_KERNEL);
+        pointer_next = kmalloc((sizeof(struct bb_node_sem_421)), GFP_KERNEL);
         pointer_current -> next = pointer_next;
         pointer_current = pointer_current -> next;
         //pointer_current -> data = 0;
