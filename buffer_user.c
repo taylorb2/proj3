@@ -10,7 +10,8 @@ static sem_t mutex;
 static sem_t fill_count;
 static sem_t empty_count;
 
-long init_buffer_421(void) {
+//long init_buffer_421(void) {
+SYSCALL_DEFINE0(init_buffer_sem_421){
 	// Write your code to initialize buffer
 
   //Determine if buffer exists
@@ -73,7 +74,8 @@ long init_buffer_421(void) {
 }
 
 
-long enqueue_buffer_421(char * data) {
+//long enqueue_buffer_421(char * data) {
+SYSCALL_DEFINE1(enqueue_buffer_sem_421, char*, data){
 	// Write your code to enqueue data into the buffer
 
   //Random amount of time before enqueue between 0 and 10 milliseconds
@@ -110,8 +112,8 @@ long enqueue_buffer_421(char * data) {
   
 } //end of function
 
-long dequeue_buffer_421(char * data) {
-
+//long dequeue_buffer_421(char * data) {
+SYSCALL_DEFINE1(dequeue_buffer_sem_421, char* , data){
 	// Write your code to dequeue data from the buffer
 
 // Write your code to enqueue data into the buffer
@@ -153,7 +155,8 @@ long dequeue_buffer_421(char * data) {
 } //end of function
 
 
-long delete_buffer_421(void) {
+//long delete_buffer_421(void) {
+SYSCALL_DEFINE0(delete_buffer_421){
 	// Tip: Don't call this while any process is waiting to enqueue or dequeue.
 	// write your code to delete buffer and other unwanted components
 
