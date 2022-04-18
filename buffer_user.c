@@ -26,7 +26,7 @@ void* producer_function(void* arg){
 
     
      if(equeue_code == -1){
-      printf("Buffer does not exist, can not equeue");
+      printk("Buffer does not exist, can not equeue");
       break;
     }
     
@@ -42,7 +42,7 @@ void* consumer_function(void* arg){
     int dequeue_code = dequeue_buffer_421(character);  
 
     if(dequeue_code == -1){
-      printf("Buffer does not exist, can not dequeue");
+      printk("Buffer does not exist, can not dequeue");
       break;
     }
   } //end of for loop
@@ -56,7 +56,7 @@ long init_buffer_421(void) {
   //Determine if buffer exists
   //If it does exist exit
   if(buffer.read != NULL){
-    printf("BUFFER ALREADY EXISTS, EXIT PROGRAM");
+    printk("BUFFER ALREADY EXISTS, EXIT PROGRAM");
     return -1;
   }
   //If buffer does not exist, create it
@@ -71,12 +71,12 @@ long init_buffer_421(void) {
 
       //If this is first node save the address
       if(i == 0){      
-        pointer_current = malloc(sizeof(struct bb_node_421));
+        pointer_current = kmalloc((sizeof(struct bb_node_421)), GFP_KERNEL);
         first_node = pointer_current;
       }
       //If it is not first node but not last node add it to circular list
       else{
-        pointer_next = malloc(sizeof(struct bb_node_421));
+        pointer_next = kmalloc((sizeof(struct bb_node_421)), GFP_KERNEL);
         pointer_current -> next = pointer_next;
         pointer_current = pointer_current -> next;
         //pointer_current -> data = 0;
@@ -97,17 +97,17 @@ long init_buffer_421(void) {
 	// Initialize your semaphores here.
   int sem1_init = sem_init(&mutex,0,1); //Shared between threads with value 1 (boolean)
   if(sem1_init == -1){
-    printf("Mutex semaphore initiliazation failure");
+    printk("Mutex semaphore initiliazation failure");
   }
   
   int sem2_init = sem_init(&fill_count,0,buffer.length); //Initialize count to 0
   if(sem2_init == -1){
-    printf("Mutex semaphore initiliazation failure");
+    printk("Mutex semaphore initiliazation failure");
   }
   
   int sem3_init = sem_init(&empty_count,0,SIZE_OF_BUFFER); //Initialize to SIZE_OF_BUFFER 
   if(sem3_init == -1){
-    printf("Mutex semaphore initiliazation failure");
+    printk("Mutex semaphore initiliazation failure");
   }
 	return 0; //Succesfull Initialation of semaphore and mutex
 }
@@ -144,7 +144,7 @@ long enqueue_buffer_421(char * data) {
 
   //buffer not initialized
   else{
-    printf("Buffer is not initialized. Can not enqueue data.");
+    printk("Buffer is not initialized. Can not enqueue data.");
     return -1;  
   }
   
@@ -186,7 +186,7 @@ long dequeue_buffer_421(char * data) {
 
   //buffer not initialized
   else{
-    printf("Buffer is not initialized. Can not enqueue data.");
+    printk("Buffer is not initialized. Can not enqueue data.");
     return -1;  
   }
   
@@ -207,12 +207,12 @@ long delete_buffer_421(void) {
     //Itterate through buffer and delete
     for(int w = 0; w < ((buffer.length) - 1); w++){
       next = current -> next;
-      free(current);
+      kfree(current);
       current = next;
     }
 
     //delete the final node
-    free (current);
+    kfree (current);
 
     //Delete semaphore and reset buffer struct
     sem_destroy(&mutex);
@@ -227,21 +227,8 @@ long delete_buffer_421(void) {
   }
   //BUffer does not exist, can not delete
   else{
-    printf("Can not delete a buffer that does not exist");
+    printk("Can not delete a buffer that does not exist");
     return -1;
   }
 }
 
-void print_semaphores(void) {
-	// You can call this method to check the status of the semaphores.
-	// Don't forget to initialize them first!
-	// YOU DO NOT NEED TO IMPLEMENT THIS FOR KERNEL SPACE.
-	int value;
-	sem_getvalue(&mutex, &value);
-	printf("sem_t mutex = %d\n", value);
-	sem_getvalue(&fill_count, &value);
-	printf("sem_t fill_count = %d\n", value);
-	sem_getvalue(&empty_count, &value);
-	printf("sem_t empty_count = %d\n", value);
-	return;
-}
