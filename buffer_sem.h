@@ -26,11 +26,11 @@ typedef struct bb_buffer_421 {
 } bb_buffer_421_t;
 
 #ifndef __KERNEL__
-long init_buffer_421(void);
-long enqueue_buffer_421(char *data);
-long dequeue_buffer_421(char *data);
-long delete_buffer_421(void);
-void print_semaphores(void);
+long init_buffer_sem_421(void);
+long enqueue_buffer_sem_421(char *data);
+long dequeue_buffer_sem_421(char *data);
+long delete_buffer_sem_421(void);
+//void print_semaphores_sem_421(void);
 #endif
 
 #ifdef __cplusplus
