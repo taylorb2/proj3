@@ -10,46 +10,6 @@ static sem_t mutex;
 static sem_t fill_count;
 static sem_t empty_count;
 
-//Producer helper function for producer thread
-void* producer_function(void* arg){
-  char character[DATA_LENGTH];
-  for(int i = 0; i < 1000; i++){
-
-    memset(character, (i % 10),DATA_LENGTH);
-    /*for(int j = 0; j < DATA_LENGTH; j++){
-      character[j] = i % 10; //Get ones place
-    } //end of inside for
-  */
-    
-    int equeue_code = enqueue_buffer_421(character);  
-    //print_semaphores();
-
-    
-     if(equeue_code == -1){
-      printk("Buffer does not exist, can not equeue");
-      break;
-    }
-    
-  } //end of second for loop
-  return NULL; 
-}
-
-//Consumer helper function for consumer thread
-void* consumer_function(void* arg){
-  char character[DATA_LENGTH];
-  
-  for(int i = 0; i < 1000; i++){
-    int dequeue_code = dequeue_buffer_421(character);  
-
-    if(dequeue_code == -1){
-      printk("Buffer does not exist, can not dequeue");
-      break;
-    }
-  } //end of for loop
-
-  return NULL;
-}
-
 long init_buffer_421(void) {
 	// Write your code to initialize buffer
 
