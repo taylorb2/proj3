@@ -1,9 +1,13 @@
-#include "buffer_sem.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <pthread.h>
+#include <linux/string.h>
+#include <linux/unistd.h>
+#include <linux/module.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/semaphore.h>
+#include <linux/slab.h>
+#include <linux/types.h>
+#include <linux/init.h>
+#include <linux/module.h>
 
 static bb_buffer_421_t buffer;
 static sem_t mutex;
