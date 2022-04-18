@@ -1,12 +1,12 @@
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <ctype.h>
+//#include <stdio.h>
+#include <linux/string.h>
+#include <linux/errno.h>
+//#include <stdlib.h>
+#include <linux/ctype.h>
 
 #include <linux/kernel.h>
-#include <sys/syscall.h>
-#include <string.h>
+#include <linux/syscalls.h>
+#include <linux/string.h>
 
 #include "buffer.h"
 
@@ -14,45 +14,15 @@
 ring_buffer_421_t* buffer;
 int initialize = 0; //0 for not intialized, 1 for intialized
 
-int main(void) {
-  int initialize_code = init_buffer_421();
-  int print_code = print_buffer_421();
-  int insert_code = 0; //-1 if error
-  
-  //Test Insert
-  insert_code = insert_buffer_421(1);
-  insert_code = insert_buffer_421(2);
-  insert_code = insert_buffer_421(3);
-  insert_code = insert_buffer_421(4);
-  insert_code = insert_buffer_421(5);
-  insert_code = insert_buffer_421(6);
-  insert_code = insert_buffer_421(7);
-  insert_code = insert_buffer_421(8);
-  insert_code = insert_buffer_421(9);
-  insert_code = insert_buffer_421(10);
-  insert_code = insert_buffer_421(11);
-  insert_code = insert_buffer_421(12);
-  insert_code = insert_buffer_421(13);
-  insert_code = insert_buffer_421(14);
-  insert_code = insert_buffer_421(15);
-  insert_code = insert_buffer_421(16);
-  insert_code = insert_buffer_421(17);
-  insert_code = insert_buffer_421(18);
-  insert_code = insert_buffer_421(19);
-  insert_code = insert_buffer_421(20);
-  insert_code = insert_buffer_421(21);
-  print_code = print_buffer_421();
-
-  int delter_code = delete_buffer_421();
-  
-  return 0;
-}
-
-
+#define __NR_init_buffer_421 442
+#define __NR_insert_buffer_421 443
+#define __NR_print_buffer_421 444
+#define __NR_delete_buffer_421 445
 
 //Initialize buffer
 //Note: change malloc to kmalloc for kernal space implementation
-long init_buffer_421(void){
+//long init_buffer_421(void){
+SYSCALL_DEFINE0(init_buffer_421){
 
   int exist = 0; //0 for doesnt exist, 1 for already exists
   //Initialize data strructure
@@ -113,7 +83,9 @@ long init_buffer_421(void){
 
 ////////////////////////////////////////////////////////////////////////////
 //Print the linked list buffer 
-long print_buffer_421(void){
+//long print_buffer_421(void){
+SYSCALL_DEFINE0(print_buffer_421){
+
   //If the buffer exists and has been initialized, then print
   if(initialize == 1){
 
@@ -156,7 +128,8 @@ long print_buffer_421(void){
 
 ////////////////////////////////////////////////////////////////////////
 //Insert Data (integer i) into next available buffer
-long insert_buffer_421(int i){
+//long insert_buffer_421(int i){
+SYSCALL_DEFINE1(insert_buffer_421, int, i){
 
   //Check to see if buffer is initialized. ALso check to see if buffer is full
   //Buffer exists and data can be inserted
@@ -165,7 +138,8 @@ long insert_buffer_421(int i){
     buffer -> write = temp_head;
 
     //Itterate through to open node
-    for(int j = 0; j < buffer -> length; j++){
+    int j;
+    for(j = 0; j < buffer -> length; j++){
       buffer -> write = buffer -> write -> next;
     }
     //Insert
@@ -183,63 +157,29 @@ long insert_buffer_421(int i){
 
 /////////////////////////////////////////////////////////////
 //Function to delete buffer and dynamic memory associated
-long delete_buffer_421(){
+//long delete_buffer_421(){
+SYSCALL_DEFINE0(delete_buffer_421){
+
   //Determine if the buffer exists
   //The buffer Does exist
   
   if(initialize == 1){
-    struct node_421 *current = buffer -> read;
+    struct node_421 *curr = buffer -> read;
     struct node_421 *next;
 
     //Itterate through and delete the whole list
-    for(int w = 0; w < ((buffer -> length) - 1); w++){
-      next = current -> next;
-      kfree(current);
-      current = next;      
+    int w;
+    for(w = 0; w < ((buffer -> length) - 1); w++){
+      next = curr -> next;
+      kfree(curr);
+      curr = next;      
     }
     //delete the final node
-    kfree(current);
+    kfree(curr);
+    return 0;
   }
   //If it does not exist
   else{
     return -1;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
